@@ -1,0 +1,51 @@
+{
+  "id": {
+    "regionId": [
+      {
+        "required": true,
+        "message": "請選擇地區代號",
+        "trigger": "blur"
+      }
+    ]
+  },
+  "personId": [
+    {
+      "required": true,
+      "message": "請輸入身份證字號",
+      "trigger": "blur"
+    },
+    {
+      "len": 10,
+      "message": "身份證字號長錯誤",
+      "trigger": "blur"
+    }
+  ],
+  "personType": [
+    {
+      "required": true,
+      "message": "請選擇人員類別",
+      "trigger": "blur"
+    }
+  ],
+  "locName": [
+    {
+      "required": true,
+      "message": "請輸入本地名字",
+      "trigger": "blur"
+    }
+  ],
+  "engName": [
+    {
+      "required": true,
+      "message": "請輸入英文名字",
+      "trigger": "blur"
+    }
+  ],
+  "custLevel": [
+    {
+      "required": true,
+      "message": "請選擇客戶等級",
+      "trigger": "change"
+    }
+  ]
+}
