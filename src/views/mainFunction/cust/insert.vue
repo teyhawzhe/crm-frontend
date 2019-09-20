@@ -44,14 +44,14 @@
 
 <script>
 import { insert } from '@/api/cust'
-import { responseHander } from '@/utils/responseData'
+import { responseHander } from '@/utils/responseHandle'
 import json from '@/dataModel/entity/TbCust'
 import validation from '@/dataModel/validation/TbCust_entity'
 
 export default {
   data() {
     return {
-      formData: json,
+      formData: Object.assign({}, json),
       rules: validation
     }
   },
@@ -73,8 +73,8 @@ export default {
       })
     },
     reset: function(formName) {
-      Object.keys(this.formData).forEach(key => (this.formData[key] = ''))
-      // this.$refs[formName].resetFields()
+      // Object.keys(this.formData).forEach(key => (this.formData[key] = ''))
+      this.$refs[formName].resetFields()
     }
   }
 }
