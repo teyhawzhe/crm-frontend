@@ -4,10 +4,10 @@
       <el-form-item label="地區代號" prop="regionId">
         <el-select v-model="formData.regionId" placeholder="請選擇地區代號" style="width:217px">
           <el-option label="" value="" />
-          <el-option label="台北" value="tp" />
-          <el-option label="台中" value="tz" />
-          <el-option label="台南" value="tn" />
-          <el-option label="台東" value="td" />
+          <el-option label="台北" value="TP" />
+          <el-option label="台中" value="TZ" />
+          <el-option label="台南" value="Tn" />
+          <el-option label="台東" value="TD" />
         </el-select>
       </el-form-item>
       <el-form-item label="客戶代號" prop="custId">
@@ -51,6 +51,16 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div v-if="showTable" class="block">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="formData.currentPage"
+        :page-size="pageNum"
+        layout="prev, pager, next, jumper"
+        :total="formData.total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -61,16 +71,21 @@ import json from '@/dataModel/query/TbCust'
 export default {
   data() {
     return {
-      formData: json,
+      formData: Object.assign({}, json),
       tableData: [],
-      showTable: false
+      showTable: false,
+      pageNum: 10
     }
   },
   methods: {
     onSubmit: function() {
+      this.formData.total = 0
+      this.formData.currentPage = 1
+      this.queryData()
+    },
+    queryData: function() {
       query(this.formData).then(response => {
         var status = response.status
-
         if (status === 'exception') {
           Message({
             message: response.data,
@@ -95,17 +110,26 @@ export default {
             duration: 1 * 1000
           })
           this.showTable = true
+          this.tableData = []
           this.tableData = response.data
+          this.formData.total = response.total
+          this.formData.currentPage = response.current
+          console.log('this.pageSize', response.current)
         }
       })
     },
     reset: function(formName) {
-      Object.keys(this.formData).forEach(key => (this.formData[key] = ''))
-      // this.$refs[formName].resetFields()
+      // Object.keys(this.formData).forEach(key => (this.formData[key] = ''))
+      this.$refs[formName].resetFields()
       this.showTable = false
     },
     handleEdit(index, row) {
       this.$router.push({ path: '/mainFunction/cust/modify', query: { foo: row }})
+    },
+    handleCurrentChange(val) {
+      this.formData.currentPage = val
+      console.log(`current page: ${val}`)
+      this.queryData()
     }
   }
 }

@@ -11,5 +11,11 @@ export function responseHander(response, okFunction) {
     okFunction(response)
   } else if (String(response.status) === 'ok') {
     okFunction(response)
+  } else if (String(response.status) === 'exception') {
+    Message({
+      message: response.data,
+      showClose: true,
+      type: 'error'
+    })
   }
 }
