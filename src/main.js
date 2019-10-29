@@ -15,6 +15,12 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// font awesome
+import 'vue-awesome/icons/flag'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
+Vue.component('v-icon', Icon)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -31,8 +37,28 @@ import '@/permission' // permission control
 */
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
-
+Vue.use(require('vue-shortkey'))
 Vue.config.productionTip = false
+
+Vue.directive('test', {
+  bind(el, binding, vnode) {
+    el.addEventListener(
+      'click',
+      binding.value
+      // console.log(vnode.context.$route)
+
+      // alert(vnode.context.$router)
+    )
+
+    window.addEventListener('keydown', binding.value)
+  },
+  unbind: function(el, binding, vnode) {
+    console.log(el)
+    console.log('5 - unbind')
+    window.removeEventListener('keydown', binding.value)
+    window.removeEventListener('click', binding.value)
+  }
+})
 
 new Vue({
   el: '#app',

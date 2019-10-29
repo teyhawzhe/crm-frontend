@@ -1,0 +1,19 @@
+{
+  //根據檔尾碼名定義vue檔案類型
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  //配置 ESLint 檢查的檔案類型
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  //保存時eslint自動修復錯誤
+  "eslint.autoFixOnSave": true,
+  //保存自動格式化
+  "editor.formatOnSave": true
+}

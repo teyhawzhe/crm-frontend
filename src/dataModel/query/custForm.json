@@ -1,0 +1,13 @@
+{
+  "id": {
+    "custId": "",
+    "regionId": ""
+  },
+  "personType": "",
+  "locName": "",
+  "engName": "",
+  "custLevel": "",
+  "current": 1,
+  "total": 1,
+  "pageSize": 10
+}
