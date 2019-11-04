@@ -1,17 +1,17 @@
 <template>
   <el-tabs type="border-card">
-    <el-tab-pane label="新增">
-      <insert></insert>
+    <el-tab-pane label="前端權限管理">
+      <frontend />
     </el-tab-pane>
-    <el-tab-pane label="查詢與修改">
-      <query></query>
+    <el-tab-pane label="後端API管理">
+      <backend />
     </el-tab-pane>
   </el-tabs>
 </template>
 <script>
-import query from './query'
-import insert from './insert'
+import frontend from './frontend/index'
+import backend from './frontend/index'
 export default {
-  components: { insert, query }
+  components: { frontend, backend }
 }
 </script>
