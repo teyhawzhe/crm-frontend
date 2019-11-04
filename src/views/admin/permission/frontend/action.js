@@ -8,9 +8,9 @@ export function getAllPath(params) {
   })
 }
 
-export function insert(data) {
+export function save(data) {
   return request({
-    url: '/api/role/add',
+    url: '/api/frontendPermission/save',
     method: 'post',
     data
   })

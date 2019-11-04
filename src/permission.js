@@ -38,7 +38,9 @@ router.beforeEach(async(to, from, next) => {
           await path()
             .then(res => {
               if (res.status === 'ok') {
+                console.log(res.data)
                 const filer = JSON.parse(res.data)
+
                 const paths = []
                 for (var j = 0; j < filer.length; j++) {
                   if (filer[j].component === 'LAYOUT' && !filer[j].children) {
