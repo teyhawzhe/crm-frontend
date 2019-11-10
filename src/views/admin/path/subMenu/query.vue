@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
     <el-select v-model="parent">
-      <el-option :label="i.title" :value="i.id.path" v-for="(i,index) in mainMenu" :key="index"></el-option>
+      <el-option v-for="(i,index) in mainMenu" :key="index" :label="i.title" :value="i.id.path" />
     </el-select>
-    <el-button @click="queryAction" type="primary" round>查詢</el-button>
-    <el-button @click="sortAction" type="primary" round>更新排序</el-button>
-    <el-button @click="pathAction" type="primary" round>PATH</el-button>
-    <el-divider></el-divider>
-    <el-table :data="table" ref="table" border style="width: 100%">
+    <el-button type="primary" round @click="queryAction">查詢</el-button>
+    <el-button type="primary" round @click="sortAction">更新排序</el-button>
+    <el-button type="primary" round @click="pathAction">PATH</el-button>
+    <el-divider />
+    <el-table ref="table" :data="table" border style="width: 100%">
       <el-table-column label="編輯" fixed="left">
         <template slot-scope="scope">
           <el-button size="mini" @click="editAction(scope.$index, scope.row)">檢視</el-button>
         </template>
       </el-table-column>
-      <el-table-column fixed prop="title" label="子標題"></el-table-column>
-      <el-table-column prop="id.path" label="子路徑"></el-table-column>
+      <el-table-column fixed prop="id.path" label="子路徑" />
+      <el-table-column prop="title" label="子標題" />
       <el-table-column prop="icon" label="大頭照">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon" />
@@ -27,7 +27,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <el-dialog
       title="修改資料"
       :visible.sync="dialogFormVisible"
@@ -36,24 +35,24 @@
     >
       <el-form :model="dialogData">
         <el-form-item label="主標題" prop="title">
-          <el-select v-model="dialogData.parent">
+          <el-select v-model="dialogData.parent" disabled>
             <el-option
-              :label="i.title"
-              :value="i.id.path"
               v-for="(i,index) in mainMenu"
               :key="index"
-            ></el-option>
+              :label="i.title"
+              :value="i.id.path"
+            />
           </el-select>
+        </el-form-item>
+        <el-form-item label="子路徑" prop="path">
+          <el-input v-model="dialogData.path" disabled />
         </el-form-item>
         <el-form-item label="子標題" prop="title">
           <el-input v-model="dialogData.title" />
         </el-form-item>
-        <el-form-item label="子路徑" prop="path">
-          <el-input v-model="dialogData.path" />
-        </el-form-item>
         <el-form-item label="ICON" prop="icon">
           <el-select v-model="dialogData.icon">
-            <el-option :label="i" :value="i" v-for="(i,index) in iconItems.icons" :key="index">
+            <el-option v-for="(i,index) in iconItems.icons" :key="index" :label="i" :value="i">
               <span style="float: left">{{ i }}</span>
               <span style="float: right;">
                 <svg-icon :icon-class="i" />
@@ -64,13 +63,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateAction">資料更新</el-button>
+        <el-button @click="dialogDeleteAction">刪 除</el-button>
+        <el-button type="primary" @click="updateAction">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { query, sort, update, path } from './action'
+import { query, sort, update, path, deletePath } from './action'
 import { responseHandler } from '@/utils/responseHandle'
 import { Message } from 'element-ui'
 import { insertValid } from './rule'
@@ -92,12 +92,23 @@ export default {
     this.queryMainMenuAction()
   },
   methods: {
+    dialogDeleteAction: function() {
+      deletePath(this.dialogData).then(res => {
+        if (res.status === 'OK') {
+          alert(res.message)
+          this.queryAction()
+          this.dialogFormVisible = false
+        } else {
+          alert(res.message)
+        }
+      })
+    },
     pathAction: function() {
       path()
     },
     queryMainMenuAction: function() {
       query({ tier: 1 }).then(res => {
-        if (res.status === 'ok') {
+        if (res.status === 'OK') {
           this.mainMenu = res.data
         }
       })
@@ -106,12 +117,12 @@ export default {
       update(this.dialogData).then(res => {
         responseHandler(res, res => {
           Message({
-            message: res.data,
+            message: res.message,
             showClose: true,
             type: 'success'
           })
           query({ tier: 2, parent: this.parent }).then(res => {
-            if (res.status === 'ok') {
+            if (res.status === 'OK') {
               this.table = res.data
             }
           })
@@ -127,7 +138,8 @@ export default {
         path: row.id.path,
         title: row.title,
         icon: row.icon,
-        parent: row.parent
+        parent: row.parent,
+        tier: row.id.tier
       }
       this.dialogData = dialogData
       this.dialogFormVisible = true
@@ -144,7 +156,7 @@ export default {
             type: 'success'
           })
           query({ tier: 2, parent: this.parent }).then(res => {
-            if (res.status === 'ok') {
+            if (res.status === 'OK') {
               this.table = res.data
             }
           })
@@ -158,7 +170,7 @@ export default {
       }
 
       query({ tier: 2, parent: this.parent }).then(res => {
-        if (res.status === 'ok') {
+        if (res.status === 'OK') {
           this.table = res.data
           Message({
             message: res.message,

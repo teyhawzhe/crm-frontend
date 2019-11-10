@@ -15,3 +15,19 @@ export function insert(data) {
     data
   })
 }
+
+export function update(data) {
+  return request({
+    url: '/api/role/update',
+    method: 'put',
+    data
+  })
+}
+
+export function deleteRole(data) {
+  return request({
+    url: '/api/role/delete',
+    method: 'delete',
+    data
+  })
+}

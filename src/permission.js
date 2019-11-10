@@ -37,7 +37,7 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/getInfo')
           await path()
             .then(res => {
-              if (res.status === 'ok') {
+              if (res.status === 'OK') {
                 console.log(res.data)
                 const filer = JSON.parse(res.data)
 

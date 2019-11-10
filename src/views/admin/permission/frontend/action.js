@@ -15,3 +15,11 @@ export function save(data) {
     data
   })
 }
+
+export function query(params) {
+  return request({
+    url: '/api/frontendPermission/query',
+    method: 'get',
+    params
+  })
+}

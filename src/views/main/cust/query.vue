@@ -3,7 +3,7 @@
     <el-form v-if="!showTable" ref="form" :model="formData" label-width="120px">
       <el-form-item label="地區代號" prop="regionId">
         <el-select v-model="formData.regionId" placeholder="請選擇地區代號">
-          <el-option label="" value="" />
+          <el-option label value />
           <el-option label="台北" value="TP" />
           <el-option label="台中" value="TZ" />
           <el-option label="台南" value="TN" />
@@ -38,16 +38,20 @@
       </el-form-item>
     </el-form>
     <div v-if="showTable">
-      <el-button circle @click="show()"><v-icon name="arrow-circle-left" scale="2" /></el-button>
+      <el-button circle @click="show()">
+        <v-icon name="arrow-circle-left" scale="2" />
+      </el-button>
       <HR />
       <el-table v-if="showTable" :data="tableData" height="500" border style="width: 1000px;">
-        <el-table-column
-          fixed="left"
-          label="編輯"
-          width="50"
-        >
+        <el-table-column fixed="left" label="編輯" width="50">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" circle type="primary" size="small" @click="handleClick(scope.row)"></el-button>
+            <el-button
+              icon="el-icon-search"
+              circle
+              type="primary"
+              size="small"
+              @click="handleClick(scope.row)"
+            />
           </template>
         </el-table-column>
         <el-table-column v-if="false" prop="regionId" label="地區代號" />
@@ -67,14 +71,18 @@
           :current-page.sync="formData.current"
           layout="prev, pager, next, jumper"
           @current-change="handleCurrentChange"
-        >
-        </el-pagination>
+        />
       </div>
-      <el-dialog title="修改資料" :visible.sync="dialogFormVisible" label-width="100px" :close-on-click-modal="false">
+      <el-dialog
+        title="修改資料"
+        :visible.sync="dialogFormVisible"
+        label-width="100px"
+        :close-on-click-modal="false"
+      >
         <el-form :model="dialogData">
           <el-form-item label="地區代號" prop="regionId">
             <el-select v-model="dialogData.regionId" disabled placeholder="請選擇地區代號">
-              <el-option label="" value="" />
+              <el-option label value />
               <el-option label="台北" value="TP" />
               <el-option label="台中" value="TZ" />
               <el-option label="台南" value="TN" />
@@ -82,7 +90,12 @@
             </el-select>
           </el-form-item>
           <el-form-item label="客戶代號" prop="custId">
-            <el-input v-model="dialogData.custId" disabled placeholder="請輸入客戶代號" style="width:217px;" />
+            <el-input
+              v-model="dialogData.custId"
+              disabled
+              placeholder="請輸入客戶代號"
+              style="width:217px;"
+            />
           </el-form-item>
           <el-form-item label="客戶類別" prop="personType">
             <el-radio-group v-model="dialogData.personType">
@@ -145,14 +158,14 @@ export default {
       query(this.formData).then(response => {
         var status = response.status
 
-        if (status === 'exception') {
+        if (status === 'EXCEPTION') {
           Message({
             message: response.data,
             showClose: true,
             type: 'error',
             duration: 3 * 1000
           })
-        } else if (status === 'empty') {
+        } else if (status === 'EMPTY') {
           Message({
             message: '查無資料',
             showClose: true,
@@ -161,7 +174,7 @@ export default {
           })
           this.showTable = false
           this.tableData = []
-        } else if (status === 'ok') {
+        } else if (status === 'OK') {
           Message({
             message: '查詢成功',
             showClose: true,
@@ -193,11 +206,9 @@ export default {
     },
     update: function() {
       modify(this.dialogData).then(response => {
-        responseHandler(response,
-          response => {
-            this.queryMethod()
-          }
-        )
+        responseHandler(response, response => {
+          this.queryMethod()
+        })
       })
     }
   }

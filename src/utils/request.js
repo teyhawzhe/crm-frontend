@@ -9,7 +9,7 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    Accept: 'application/json'
   },
   timeout: 5000 // request timeout
 })
@@ -38,7 +38,7 @@ service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom code
@@ -47,7 +47,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (String(res.status) === 'exception') {
+    if (String(res.status) === 'EXCEPTION') {
       if (String(res.data) === 'INVALID_CREDENTIALS') {
         Message({
           message: '帳號或密碼錯誤!',
@@ -59,13 +59,6 @@ service.interceptors.response.use(
       } else if (String(res.data) === 'USER_DISABLED') {
         Message({
           message: '帳號被鎖，請聯絡系統負責人!',
-          showClose: true,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      } else {
-        Message({
-          message: res.data,
           showClose: true,
           type: 'error',
           duration: 5 * 1000
@@ -98,13 +91,6 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
-    } else {
-      Message({
-        message: error.message,
-        showClose: true,
-        type: 'error',
-        duration: 5 * 1000
-      })
     }
 
     return Promise.reject(error)

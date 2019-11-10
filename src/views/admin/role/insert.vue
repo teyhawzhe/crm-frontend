@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="dataForm" :rules="rule" ref="dataForm" width="100" label-width="100px">
+    <el-form ref="dataForm" :model="dataForm" :rules="rule" width="100" label-width="100px">
       <el-form-item label="權限角色" prop="role">
         <el-input v-model="dataForm.role" @input="uppercase()" />
       </el-form-item>
@@ -18,7 +18,6 @@
 import { insertForm } from './entity'
 import { validInsertForm } from './rule'
 import { insert } from './action'
-import { Message } from 'element-ui'
 export default {
   data() {
     return {
@@ -34,13 +33,11 @@ export default {
       this.$refs[dataForm].validate(valid => {
         if (valid) {
           insert(this.dataForm).then(res => {
-            responseHandler(res, res => {
-              Message({
-                message: res.data,
-                showClose: true,
-                type: 'success'
-              })
-            })
+            if (res.status === 'OK') {
+              alert('新增成功!')
+            } else {
+              alert('新增失敗!')
+            }
           })
         }
       })

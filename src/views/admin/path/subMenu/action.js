@@ -27,7 +27,7 @@ export function sort(data) {
 export function update(data) {
   return request({
     url: '/api/path/update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -37,5 +37,13 @@ export function path(params) {
     url: '/api/path/path',
     method: 'get',
     params
+  })
+}
+
+export function deletePath(data) {
+  return request({
+    url: '/api/path/delete',
+    method: 'delete',
+    data
   })
 }

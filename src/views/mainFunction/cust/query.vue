@@ -3,7 +3,7 @@
     <el-form ref="form" :model="formData" label-width="auto">
       <el-form-item label="地區代號" prop="regionId">
         <el-select v-model="formData.regionId" placeholder="請選擇地區代號" style="width:217px">
-          <el-option label="" value="" />
+          <el-option label value />
           <el-option label="台北" value="TP" />
           <el-option label="台中" value="TZ" />
           <el-option label="台南" value="Tn" />
@@ -54,12 +54,12 @@
 
     <div v-if="showTable" class="block">
       <el-pagination
-        @current-change="handleCurrentChange"
         :current-page="formData.currentPage"
         :page-size="pageNum"
+        @current-change="handleCurrentChange"
         layout="prev, pager, next, jumper"
-        :total="formData.total">
-      </el-pagination>
+        :total="formData.total"
+      />
     </div>
   </div>
 </template>
@@ -86,14 +86,14 @@ export default {
     queryData: function() {
       query(this.formData).then(response => {
         var status = response.status
-        if (status === 'exception') {
+        if (status === 'EXCEPTION') {
           Message({
             message: response.data,
             showClose: true,
             type: 'error',
             duration: 3 * 1000
           })
-        } else if (status === 'empty') {
+        } else if (status === 'EMPTY') {
           Message({
             message: '查無資料',
             showClose: true,
@@ -102,7 +102,7 @@ export default {
           })
           this.showTable = false
           this.tableData = []
-        } else if (status === 'ok') {
+        } else if (status === 'OK') {
           Message({
             message: '查詢成功',
             showClose: true,
@@ -124,7 +124,10 @@ export default {
       this.showTable = false
     },
     handleEdit(index, row) {
-      this.$router.push({ path: '/mainFunction/cust/modify', query: { foo: row }})
+      this.$router.push({
+        path: '/mainFunction/cust/modify',
+        query: { foo: row }
+      })
     },
     handleCurrentChange(val) {
       this.formData.currentPage = val
