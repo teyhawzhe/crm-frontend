@@ -48,7 +48,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (String(res.status) === 'EXCEPTION') {
-      if (String(res.data) === 'INVALID_CREDENTIALS') {
+      if (String(res.message) === 'INVALID_CREDENTIALS') {
         Message({
           message: '帳號或密碼錯誤!',
           showClose: true,
@@ -56,14 +56,31 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
         return Promise.reject()
-      } else if (String(res.data) === 'USER_DISABLED') {
+      } else if (String(res.message) === 'USER_DISABLED') {
         Message({
           message: '帳號被鎖，請聯絡系統負責人!',
           showClose: true,
           type: 'error',
           duration: 5 * 1000
         })
+      } else if (String(res.message) === 'DISALLOWED_API') {
+        Message({
+          message: '您沒有此API的權限!',
+          showClose: true,
+          type: 'error',
+          duration: 5 * 1000
+        })
       }
+    }
+
+    if (String(res.status) === 'valid') {
+      Message({
+        message: res.message,
+        showClose: true,
+        type: 'error',
+        duration: 5 * 1000,
+        dangerouslyUseHTMLString: true
+      })
     }
 
     return res

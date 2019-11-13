@@ -10,7 +10,7 @@
 </template>
 <script>
 import frontend from './frontend/index'
-import backend from './frontend/index'
+import backend from './backend/index'
 export default {
   components: { frontend, backend }
 }
