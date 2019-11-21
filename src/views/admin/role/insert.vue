@@ -7,6 +7,12 @@
       <el-form-item label="權限敘述" prop="def">
         <el-input v-model="dataForm.def" />
       </el-form-item>
+      <el-form-item label="狀態" prop="status">
+        <el-radio-group v-model="dataForm.status">
+          <el-radio-button label="true">已啟用</el-radio-button>
+          <el-radio-button label="false">未啟用</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="insertAction('dataForm')">新增</el-button>
         <el-button type="primary" @click="reset('dataForm')">重置</el-button>

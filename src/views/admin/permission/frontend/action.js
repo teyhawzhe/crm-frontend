@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getAllPath(params) {
   return request({
-    url: '/api/path/allPath',
+    url: '/api/setting/path/allPath',
     method: 'get',
     params
   })
@@ -10,7 +10,7 @@ export function getAllPath(params) {
 
 export function save(data) {
   return request({
-    url: '/api/frontendPermission/save',
+    url: '/api/setting/path/permission',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function save(data) {
 
 export function query(params) {
   return request({
-    url: '/api/frontendPermission/query',
+    url: '/api/setting/path/permission',
     method: 'get',
     params
   })

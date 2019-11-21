@@ -1,14 +1,15 @@
 export function insertForm() {
   return {
     role: '',
-    def: ''
+    def: '',
+    status: true
   }
 }
 
 export function queryForm() {
   return {
-    id: '',
     role: '',
-    def: ''
+    def: '',
+    status: Boolean
   }
 }
