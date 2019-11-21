@@ -12,20 +12,19 @@
           :limit="101"
           :on-change="handleAvatarSuccess"
         >
-          <img v-if="form.image" :src="form.image" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <img v-if="form.image" :src="form.image" class="avatar" >
+          <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
       <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.name" />
       </el-form-item>
       <el-form-item label="帳號" prop="username">
-        <el-input v-model="form.username"></el-input>
+        <el-input v-model="form.username" />
       </el-form-item>
       <el-form-item label="權限" prop="roles">
         <el-checkbox-group v-model="form.roles">
-          <el-checkbox-button label="ADMIN" name="roles"></el-checkbox-button>
-          <el-checkbox-button label="USER" name="roles"></el-checkbox-button>
+          <el-checkbox-button v-for="(i,index) in roles" :key="index" :label="i.role" name="roles" />
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
@@ -37,17 +36,28 @@
 </template>
 
 <script>
-import { insert } from '@/api/userRegister'
-import { insertForm } from '@/dataModel/entity/user'
-import { insertFormRules } from '@/dataModel/rules/user'
+import { insert, queryRole } from './action'
+import { insertForm } from './entity'
+import { insertFormRules } from './rule'
 export default {
   data() {
     return {
       form: insertForm(),
-      rules: insertFormRules()
+      rules: insertFormRules(),
+      roles: []
     }
   },
+  mounted() {
+    this.queryRoleAction()
+  },
   methods: {
+    queryRoleAction: function() {
+      queryRole().then(res => {
+        if (res.status === 'OK') {
+          this.roles = res.data
+        }
+      })
+    },
     onSubmit: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

@@ -58,7 +58,7 @@ export default {
   methods: {
     queryMainMenuAction: function() {
       query({ tier: 1 }).then(res => {
-        if (res.status === 'ok') {
+        if (res.status === 'OK') {
           this.mainMenu = res.data
         }
       })

@@ -9,7 +9,7 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    Accept: 'application/json'
   },
   timeout: 5000 // request timeout
 })
@@ -38,7 +38,7 @@ service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom code
@@ -47,8 +47,8 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (String(res.status) === 'exception') {
-      if (String(res.data) === 'INVALID_CREDENTIALS') {
+    if (String(res.status) === 'EXCEPTION') {
+      if (String(res.message) === 'INVALID_CREDENTIALS') {
         Message({
           message: '帳號或密碼錯誤!',
           showClose: true,
@@ -56,21 +56,59 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
         return Promise.reject()
-      } else if (String(res.data) === 'USER_DISABLED') {
+      } else if (String(res.message) === 'USER_DISABLED') {
         Message({
           message: '帳號被鎖，請聯絡系統負責人!',
           showClose: true,
           type: 'error',
           duration: 5 * 1000
         })
-      } else {
+      } else if (String(res.message) === 'DISALLOWED_API') {
+        Message({
+          message: '您沒有此API的權限!',
+          showClose: true,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      } else if (String(res.message) === 'LOGIN_ATTEMPT') {
         Message({
           message: res.data,
           showClose: true,
           type: 'error',
           duration: 5 * 1000
         })
+      } else if (String(res.message) === 'TOKEN_EXPIRED') {
+        MessageBox.confirm('帳號登入已經逾期了，請重新登入', '請重新登入', {
+          confirmButtonText: '重新登入',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('user/resetToken').then(() => {
+            location.reload()
+          })
+        })
+      } else if (String(res.message) === 'TOKEN_MISSING') {
+        MessageBox.confirm('TOKEN來源無法認證，請重新登入', '請重新登入', {
+          confirmButtonText: '重新登入',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('user/resetToken').then(() => {
+            location.reload()
+          })
+        })
       }
+      return Promise.reject(res)
+    }
+
+    if (String(res.status) === 'valid') {
+      Message({
+        message: res.message,
+        showClose: true,
+        type: 'error',
+        duration: 5 * 1000,
+        dangerouslyUseHTMLString: true
+      })
     }
 
     return res
@@ -98,13 +136,6 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
-    } else {
-      Message({
-        message: error.message,
-        showClose: true,
-        type: 'error',
-        duration: 5 * 1000
-      })
     }
 
     return Promise.reject(error)

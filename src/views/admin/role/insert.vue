@@ -1,11 +1,17 @@
 <template>
   <div class="app-container">
-    <el-form :model="dataForm" :rules="rule" ref="dataForm" width="100" label-width="100px">
+    <el-form ref="dataForm" :model="dataForm" :rules="rule" width="100" label-width="100px">
       <el-form-item label="權限角色" prop="role">
         <el-input v-model="dataForm.role" @input="uppercase()" />
       </el-form-item>
       <el-form-item label="權限敘述" prop="def">
         <el-input v-model="dataForm.def" />
+      </el-form-item>
+      <el-form-item label="狀態" prop="status">
+        <el-radio-group v-model="dataForm.status">
+          <el-radio-button label="true">已啟用</el-radio-button>
+          <el-radio-button label="false">未啟用</el-radio-button>
+        </el-radio-group>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="insertAction('dataForm')">新增</el-button>
@@ -18,7 +24,6 @@
 import { insertForm } from './entity'
 import { validInsertForm } from './rule'
 import { insert } from './action'
-import { Message } from 'element-ui'
 export default {
   data() {
     return {
@@ -34,13 +39,11 @@ export default {
       this.$refs[dataForm].validate(valid => {
         if (valid) {
           insert(this.dataForm).then(res => {
-            responseHandler(res, res => {
-              Message({
-                message: res.data,
-                showClose: true,
-                type: 'success'
-              })
-            })
+            if (res.status === 'OK') {
+              alert('新增成功!')
+            } else {
+              alert('新增失敗!')
+            }
           })
         }
       })

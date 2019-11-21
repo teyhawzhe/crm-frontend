@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getAllPath(params) {
+export function findAll(params) {
   return request({
-    url: '/api/setting/path/allPath',
+    url: '/api/setting/api/permission',
     method: 'get',
     params
   })
@@ -10,15 +10,15 @@ export function getAllPath(params) {
 
 export function save(data) {
   return request({
-    url: '/api/setting/path/permission',
+    url: '/api/setting/api/permission',
     method: 'post',
     data
   })
 }
 
-export function query(params) {
+export function findCheckApi(params) {
   return request({
-    url: '/api/setting/path/permission',
+    url: '/api/setting/api/permission/findCheckApi',
     method: 'get',
     params
   })

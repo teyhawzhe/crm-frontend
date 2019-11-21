@@ -9,7 +9,7 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/xml'
+    Accept: 'application/xml'
   },
   timeout: 5000 // request timeout
 })
@@ -38,7 +38,7 @@ service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom code
@@ -47,7 +47,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (String(res.status) === 'exception') {
+    if (String(res.status) === 'EXCEPTION') {
       if (String(res.data) === 'INVALID_CREDENTIALS') {
         Message({
           message: '帳號或密碼錯誤!',

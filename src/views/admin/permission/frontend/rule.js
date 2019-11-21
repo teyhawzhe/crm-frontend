@@ -12,3 +12,10 @@ export function save() {
     ]
   }
 }
+
+export function insertFuncPermissionValid() {
+  return {
+    title: [{ required: true, message: '請選擇主標題', trigger: 'change' }],
+    role: [{ required: true, message: '請選擇角色', trigger: 'blur' }]
+  }
+}

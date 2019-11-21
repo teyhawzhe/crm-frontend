@@ -1,8 +1,10 @@
 import request from '@/utils/request'
 
+const path = '/api/setting/role/'
+
 export function query(params) {
   return request({
-    url: '/api/role/list',
+    url: path,
     method: 'get',
     params
   })
@@ -10,8 +12,24 @@ export function query(params) {
 
 export function insert(data) {
   return request({
-    url: '/api/role/add',
+    url: path,
     method: 'post',
+    data
+  })
+}
+
+export function update(data) {
+  return request({
+    url: path,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteRole(data) {
+  return request({
+    url: path,
+    method: 'delete',
     data
   })
 }
