@@ -70,7 +70,35 @@ service.interceptors.response.use(
           type: 'error',
           duration: 5 * 1000
         })
+      } else if (String(res.message) === 'LOGIN_ATTEMPT') {
+        Message({
+          message: res.data,
+          showClose: true,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      } else if (String(res.message) === 'TOKEN_EXPIRED') {
+        MessageBox.confirm('帳號登入已經逾期了，請重新登入', '請重新登入', {
+          confirmButtonText: '重新登入',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('user/resetToken').then(() => {
+            location.reload()
+          })
+        })
+      } else if (String(res.message) === 'TOKEN_MISSING') {
+        MessageBox.confirm('TOKEN來源無法認證，請重新登入', '請重新登入', {
+          confirmButtonText: '重新登入',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('user/resetToken').then(() => {
+            location.reload()
+          })
+        })
       }
+      return Promise.reject(res)
     }
 
     if (String(res.status) === 'valid') {
