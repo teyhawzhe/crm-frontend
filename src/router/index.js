@@ -53,50 +53,9 @@ export const constantRoutes = [
       }
     ]
   }
-
-  /* {
-    path: '/mainFunction',
-    component: Layout,
-    name: 'mainFunction',
-    redirect: 'noRedirect',
-    // redirect: '/mainFunction/TbCust',
-    meta: {
-      title: '主功能列',
-      icon: 'example'
-    },
-    children: [
-      {
-        path: 'cust',
-        name: 'cust',
-        component: () => import('@/views/mainFunction/cust/index'),
-        redirect: 'noRedirect',
-        meta: { title: '會員基本資料' },
-        children: [
-          {
-            path: 'query',
-            component: () => import('@/views/mainFunction/cust/query'),
-            name: 'query',
-            meta: { title: '查詢' }
-          },
-          {
-            path: 'insert',
-            component: () => import('@/views/mainFunction/cust/insert'),
-            name: 'insert',
-            meta: { title: '新增' }
-          },
-          {
-            path: 'modify',
-            component: () => import('@/views/mainFunction/cust/insert'),
-            name: 'modify',
-            meta: { title: '修改' }
-          }
-        ]
-      }
-    ]
-  }*/
 ]
 
-export const customRoutes = []
+export const asyncRoutes = []
 
 const createRouter = () => {
   return new Router({

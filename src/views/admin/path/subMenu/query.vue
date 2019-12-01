@@ -151,7 +151,7 @@ export default {
       sort(list).then(res => {
         responseHandler(res, res => {
           Message({
-            message: res.data,
+            message: res.message,
             showClose: true,
             type: 'success'
           })

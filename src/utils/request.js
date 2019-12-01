@@ -72,7 +72,7 @@ service.interceptors.response.use(
         })
       } else if (String(res.message) === 'LOGIN_ATTEMPT') {
         Message({
-          message: res.data,
+          message: res.message,
           showClose: true,
           type: 'error',
           duration: 5 * 1000

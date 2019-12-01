@@ -1,5 +1,5 @@
 import router from './router'
-import { constantRoutes } from '@/router'
+import { constantRoutes, asyncRoutes, resetRouter } from '@/router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -35,10 +35,19 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           await store.dispatch('user/getInfo')
+          for (var i = 0; i < asyncRoutes.length; i++) {
+            const index = constantRoutes.findIndex(
+              x => x.path === asyncRoutes[i].path
+            )
+            if (index !== undefined) {
+              constantRoutes.splice(index, 1)
+            }
+          }
+          resetRouter()
+
           await path()
             .then(res => {
               if (res.status === 'OK') {
-                console.log(res.data)
                 const filer = JSON.parse(res.data)
 
                 const paths = []
@@ -57,6 +66,7 @@ router.beforeEach(async(to, from, next) => {
                 router.addRoutes(json)
                 for (var i = 0; i < json.length; i++) {
                   constantRoutes.push(json[i])
+                  asyncRoutes.push(json)
                 }
                 next({ ...to, replace: true })
               } else {

@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <el-card class="box-card">
-      <el-form label-width="120px" :rules="rule" :model="formData" ref="formData">
+      <el-form label-width="120px" :rules="rule" ref="formData" :model="formData">
         <el-form-item label="主目錄" prop="parent">
           <el-select v-model="formData.parent">
             <el-option
               :label="i.title"
-              :value="i.id.path"
               v-for="(i,index) in mainMenu"
+              :value="i.id.path"
               :key="index"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="子標題" prop="title">
@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item label="ICON" prop="icon">
           <el-select v-model="formData.icon">
-            <el-option :label="i" :value="i" v-for="(i,index) in iconItems.icons" :key="index">
+            <el-option :label="i" v-for="(i,index) in iconItems.icons" :value="i" :key="index">
               <span style="float: left">{{ i }}</span>
               <span style="float: right;">
                 <svg-icon :icon-class="i" />
@@ -69,7 +69,7 @@ export default {
           insert(this.formData).then(res => {
             responseHandler(res, res => {
               Message({
-                message: res.data,
+                message: res.message,
                 showClose: true,
                 type: 'success'
               })
