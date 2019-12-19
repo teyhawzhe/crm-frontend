@@ -13,7 +13,7 @@
     }
   ],
   //保存時eslint自動修復錯誤
-  "eslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": false,
   //保存自動格式化
-  "editor.formatOnSave": true
+  "editor.formatOnSave": false
 }

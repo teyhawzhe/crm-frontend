@@ -8,6 +8,8 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { path } from '@/views/admin/path/subMenu/action'
 import { routerMap } from '@/router/routerMap'
+import {initConnection} from '@/utils/bulletin'
+
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
@@ -34,14 +36,11 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
+          initConnection()
           await store.dispatch('user/getInfo')
+          constantRoutes.length=0
           for (var i = 0; i < asyncRoutes.length; i++) {
-            const index = constantRoutes.findIndex(
-              x => x.path === asyncRoutes[i].path
-            )
-            if (index !== undefined) {
-              constantRoutes.splice(index, 1)
-            }
+            constantRoutes.push(asyncRoutes[i])
           }
           resetRouter()
 

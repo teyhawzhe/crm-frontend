@@ -13,7 +13,7 @@ export function iconItems() {
       '',
       'address-card-regular',
       'cogs-solid',
-      'dashboard',
+      '',
       'example',
       'eye-open',
       'eye',

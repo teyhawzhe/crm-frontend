@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function insert(data) {
   return request({
-    url: '/api/user/add',
+    url: '/user/add',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function insert(data) {
 
 export function query(params) {
   return request({
-    url: '/api/user/list',
+    url: '/user/list',
     method: 'get',
     params
   })

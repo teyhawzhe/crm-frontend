@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function insert(data) {
   return request({
-    url: '/api/setting/path',
+    url: '/setting/path',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function insert(data) {
 
 export function query(params) {
   return request({
-    url: '/api/setting/path/list',
+    url: '/setting/path/list',
     method: 'get',
     params
   })
@@ -18,7 +18,7 @@ export function query(params) {
 
 export function sort(data) {
   return request({
-    url: '/api/setting/path/sort',
+    url: '/setting/path/sort',
     method: 'put',
     data
   })
@@ -26,7 +26,7 @@ export function sort(data) {
 
 export function update(data) {
   return request({
-    url: '/api/setting/path/update',
+    url: '/setting/path/update',
     method: 'put',
     data
   })
@@ -34,7 +34,7 @@ export function update(data) {
 
 export function deletePath(data) {
   return request({
-    url: '/api/setting/path/delete',
+    url: '/setting/path/delete',
     method: 'delete',
     data
   })

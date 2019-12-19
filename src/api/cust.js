@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function insert(data) {
   return request({
-    url: '/api/cust/add',
+    url: '/cust/add',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function insert(data) {
 
 export function query(params) {
   return request({
-    url: '/api/cust/lists',
+    url: '/cust/lists',
     method: 'get',
     params
   })
@@ -18,7 +18,7 @@ export function query(params) {
 
 export function modify(data) {
   return request({
-    url: '/api/cust/modify',
+    url: '/cust/modify',
     method: 'post',
     data
   })
