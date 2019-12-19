@@ -1,5 +1,5 @@
 import router from './router'
-import { constantRoutes } from '@/router'
+import { constantRoutes, asyncRoutes, resetRouter } from '@/router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -8,6 +8,8 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { path } from '@/views/admin/path/subMenu/action'
 import { routerMap } from '@/router/routerMap'
+import { initConnection } from '@/utils/bulletin.js'
+
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
@@ -34,6 +36,12 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
+          initConnection()
+          constantRoutes.length = 0
+          for (var i = 0; i < asyncRoutes.length; i++) {
+            constantRoutes.push(asyncRoutes[i])
+          }
+          resetRouter()
           await store.dispatch('user/getInfo')
           await path()
             .then(res => {
@@ -57,6 +65,7 @@ router.beforeEach(async(to, from, next) => {
                 router.addRoutes(json)
                 for (var i = 0; i < json.length; i++) {
                   constantRoutes.push(json[i])
+                  console.log(constantRoutes)
                 }
                 next({ ...to, replace: true })
               } else {
@@ -72,7 +81,7 @@ router.beforeEach(async(to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
+          next(`/login`)
           NProgress.done()
         }
       }
@@ -85,7 +94,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`)
+      next(`/login`)
       NProgress.done()
     }
   }

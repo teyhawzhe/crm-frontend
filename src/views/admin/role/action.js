@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-const path = '/api/setting/role/'
+const path = '/setting/role/'
 
 export function query(params) {
   return request({

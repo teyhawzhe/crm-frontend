@@ -28,6 +28,33 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+export const asyncRoutes = [
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '首頁', icon: '' }
+      }
+    ]
+  }
+]
 export const constantRoutes = [
   {
     path: '/login',
@@ -44,59 +71,17 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
+    redirect: '/dashboard',
     children: [
       {
-        path: '/',
+        path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: '首頁', icon: 'dashboard' }
+        meta: { title: '首頁', icon: '' }
       }
     ]
   }
-
-  /* {
-    path: '/mainFunction',
-    component: Layout,
-    name: 'mainFunction',
-    redirect: 'noRedirect',
-    // redirect: '/mainFunction/TbCust',
-    meta: {
-      title: '主功能列',
-      icon: 'example'
-    },
-    children: [
-      {
-        path: 'cust',
-        name: 'cust',
-        component: () => import('@/views/mainFunction/cust/index'),
-        redirect: 'noRedirect',
-        meta: { title: '會員基本資料' },
-        children: [
-          {
-            path: 'query',
-            component: () => import('@/views/mainFunction/cust/query'),
-            name: 'query',
-            meta: { title: '查詢' }
-          },
-          {
-            path: 'insert',
-            component: () => import('@/views/mainFunction/cust/insert'),
-            name: 'insert',
-            meta: { title: '新增' }
-          },
-          {
-            path: 'modify',
-            component: () => import('@/views/mainFunction/cust/insert'),
-            name: 'modify',
-            meta: { title: '修改' }
-          }
-        ]
-      }
-    ]
-  }*/
 ]
-
-export const customRoutes = []
 
 const createRouter = () => {
   return new Router({
