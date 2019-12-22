@@ -8,7 +8,7 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { path } from '@/views/admin/path/subMenu/action'
 import { routerMap } from '@/router/routerMap'
-import { initConnection } from '@/utils/bulletin.js'
+import {initConnection} from '@/utils/bulletin'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -37,16 +37,16 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           initConnection()
-          constantRoutes.length = 0
+          await store.dispatch('user/getInfo')
+          constantRoutes.length=0
           for (var i = 0; i < asyncRoutes.length; i++) {
             constantRoutes.push(asyncRoutes[i])
           }
           resetRouter()
-          await store.dispatch('user/getInfo')
+
           await path()
             .then(res => {
               if (res.status === 'OK') {
-                console.log(res.data)
                 const filer = JSON.parse(res.data)
 
                 const paths = []
@@ -65,7 +65,7 @@ router.beforeEach(async(to, from, next) => {
                 router.addRoutes(json)
                 for (var i = 0; i < json.length; i++) {
                   constantRoutes.push(json[i])
-                  console.log(constantRoutes)
+                  asyncRoutes.push(json)
                 }
                 next({ ...to, replace: true })
               } else {
@@ -81,7 +81,7 @@ router.beforeEach(async(to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
-          next(`/login`)
+          next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
       }
@@ -94,7 +94,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login`)
+      next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
   }

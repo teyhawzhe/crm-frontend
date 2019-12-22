@@ -48,7 +48,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (String(res.status) === 'EXCEPTION') {
-      if (String(res.data) === 'INVALID_CREDENTIALS') {
+      if (String(res.message) === 'INVALID_CREDENTIALS') {
         Message({
           message: '帳號或密碼錯誤!',
           showClose: true,
@@ -56,7 +56,7 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
         return Promise.reject()
-      } else if (String(res.data) === 'USER_DISABLED') {
+      } else if (String(res.message) === 'USER_DISABLED') {
         Message({
           message: '帳號被鎖，請聯絡系統負責人!',
           showClose: true,
@@ -65,7 +65,7 @@ service.interceptors.response.use(
         })
       } else {
         Message({
-          message: res.data,
+          message: res.message,
           showClose: true,
           type: 'error',
           duration: 5 * 1000
